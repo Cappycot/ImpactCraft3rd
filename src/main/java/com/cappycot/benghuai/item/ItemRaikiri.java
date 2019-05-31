@@ -34,7 +34,9 @@ public class ItemRaikiri extends ItemHonkaiSword {
 		ItemStack itemStack = player.getHeldItemMainhand();
 		if (!world.isRemote && itemStack.getItemDamage() == itemStack.getMaxDamage()
 				&& !player.getCooldownTracker().hasCooldown(this)) {
-			player.getCooldownTracker().setCooldown(this, 120);
+			// TODO: Set durability to HonkaiNumbers class.
+			player.getCooldownTracker().setCooldown(this,
+					player.capabilities.isCreativeMode ? 120 : HonkaiNumbers.RAIKIRI_COOLDOWN * 20);
 			for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class,
 					player.getEntityBoundingBox().grow(16D)))
 				if ((entity == player

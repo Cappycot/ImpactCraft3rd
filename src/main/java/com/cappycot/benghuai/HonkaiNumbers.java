@@ -5,7 +5,8 @@ package com.cappycot.benghuai;
  */
 public class HonkaiNumbers {
 
-	public static final int RAIKIRI_SP = 10;
+	public static final int RAIKIRI_COOLDOWN = 25;
+	public static final int RAIKIRI_SP = 18;
 	public static final int RAIKIRI_SWORDS_ID = 480;
 
 }

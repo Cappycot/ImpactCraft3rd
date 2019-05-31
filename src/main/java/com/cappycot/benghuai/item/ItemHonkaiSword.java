@@ -83,6 +83,6 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		return true;
+		return stack.getItemDamage() > 0;
 	}
 }
