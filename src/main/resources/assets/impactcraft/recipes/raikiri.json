@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RDR",
+        "RDR",
+        "RCR"
+    ],
+    "key": {
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "D": {
+            "item": "minecraft:diamond_block"
+        },
+        "C": {
+            "item": "impactcraft:crystal"
+        }
+    },
+    "result": {
+        "item": "impactcraft:raikiri"
+    }
+}

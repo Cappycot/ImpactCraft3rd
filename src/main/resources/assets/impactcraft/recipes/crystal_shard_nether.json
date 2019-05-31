@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RRR",
+        "RNR",
+        "RRR"
+    ],
+    "key": {
+        "R": {
+            "item": "minecraft:rotten_flesh"
+        },
+        "N": {
+            "item": "minecraft:nether_star"
+        }
+    },
+    "result": {
+        "item": "impactcraft:crystal_shard",
+        "count": 2
+    },
+    "group": "impactcraft_crystal_shard"
+}

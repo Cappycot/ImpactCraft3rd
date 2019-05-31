@@ -1,0 +1,16 @@
+[
+{
+  "modid": "impactcraft",
+  "name": "ImpactCraft 3rd",
+  "description": "An arsenal of weapons to protect this beautiful world...",
+  "version": "0.1",
+  "mcversion": "1.12.2",
+  "url": "https://github.com/Cappycot/ImpactCraft3rd",
+  "updateUrl": "",
+  "authorList": ["Cappycot"],
+  "credits": "WIP",
+  "logoFile": "assets/impactcraft/textures/hi3_logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

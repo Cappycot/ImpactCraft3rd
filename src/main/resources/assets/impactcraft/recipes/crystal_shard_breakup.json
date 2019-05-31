@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "impactcraft:crystal"
+        }
+    ],
+    "result": {
+        "item": "impactcraft:crystal_shard",
+        "count": 3
+    },
+    "group": "impactcraft_crystal_shard"
+}
