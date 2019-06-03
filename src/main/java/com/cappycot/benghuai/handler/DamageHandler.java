@@ -31,9 +31,6 @@ public class DamageHandler {
 				entity.hurtResistantTime = 0;
 				entity.hurtTime = 0;
 			}
-		} else if (source.getImmediateSource() instanceof EntityRaikiriSwords) {
-			entity.hurtResistantTime = 0;
-			entity.hurtTime = 0;
 		}
 	}
 }
