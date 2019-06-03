@@ -15,7 +15,7 @@ public class WeaponHandler {
 	/**
 	 * Reset weapon SP to 0.
 	 */
-	@SubscribeEvent
+	// @SubscribeEvent
 	public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
 		ItemStack itemTo = event.getTo();
 		if (!(itemTo.getItem() instanceof ItemHonkaiSword && event.getEntityLiving() instanceof EntityPlayer))
