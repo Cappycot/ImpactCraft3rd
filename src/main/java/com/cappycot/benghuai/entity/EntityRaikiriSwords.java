@@ -52,8 +52,6 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 		super.onUpdate();
 		EntityPlayer owner = getOwner();
 		lifeTicks--;
-		if (world.isRemote)
-			System.out.println(lifeTicks);
 		if (lifeTicks < 0)
 			this.setDead();
 		else {
