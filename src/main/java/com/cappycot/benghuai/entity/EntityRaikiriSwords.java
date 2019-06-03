@@ -3,6 +3,9 @@ package com.cappycot.benghuai.entity;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.cappycot.benghuai.HonkaiConfig;
+import com.cappycot.benghuai.util.Alliance;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,17 +23,20 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 
 	private EntityLivingBase attached = null;
 	private UUID attachedUUID = null;
-	private int lifeTicks = 120; // TODO: Move to constructor.
+	private float bladeDamage = 0F;
+	private int lifeTicks = 120;
 
 	public EntityRaikiriSwords(World world) {
 		super(world);
-		this.isImmuneToFire = true;
 	}
 
-	public EntityRaikiriSwords(World world, EntityPlayer owner, EntityLivingBase attached) {
+	public EntityRaikiriSwords(World world, EntityPlayer owner, EntityLivingBase attached, float bladeDamage,
+			int lifeTicks) {
 		super(world, (EntityPlayer) (owner == null ? (attached instanceof EntityPlayer ? attached : null) : owner));
 		this.attached = attached;
 		this.setPositionAndRotation(attached.posX, attached.posY, attached.posZ, attached.rotationYaw, 0);
+		this.bladeDamage = bladeDamage;
+		this.lifeTicks = lifeTicks;
 	}
 
 	@Override
@@ -45,7 +51,10 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 	public void onUpdate() {
 		super.onUpdate();
 		EntityPlayer owner = getOwner();
-		if (this.ticksExisted > lifeTicks)
+		lifeTicks--;
+		if (world.isRemote)
+			System.out.println(lifeTicks);
+		if (lifeTicks < 0)
 			this.setDead();
 		else {
 			// Once client side rendering is completely fixed, we can move setPosition to be
@@ -54,26 +63,25 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 				this.setPosition(attached.posX, attached.posY, attached.posZ); // TODO: Move when client sync fixed.
 			else if (attachedUUID != null)
 				tryAttach();
-			if (!this.world.isRemote && owner != null && this.ticksExisted % 5 == 0) {
+			if (!this.world.isRemote && owner != null && lifeTicks % 5 == 0) {
 				if (attached != null)
 					this.setPosition(attached.posX, attached.posY, attached.posZ);
 				else if (attachedUUID != null)
 					tryAttach();
 				for (EntityLivingBase e : this.world.getEntitiesWithinAABB(EntityLivingBase.class,
 						this.getEntityBoundingBox())) {
-					// TODO: Move these checks to a base class function.
-					if (e == owner || e == attached || e.getIsInvulnerable() || e instanceof EntityVillager)
+					if (e == owner || e == attached || e.getIsInvulnerable())
 						continue;
-					else if (e instanceof EntityTameable && ((EntityTameable) e).getOwner() == owner)
-						continue;
-					else if (e instanceof EntityPlayer && (((EntityPlayer) e).capabilities.isCreativeMode
-							|| ((EntityPlayer) e).isOnSameTeam(owner)))
+					else if (Alliance.shouldNotHarmByPlayer(e, owner))
 						continue;
 					// Calculate distance since this is a circular weapon.
 					if (Math.sqrt(Math.pow(this.posX - e.posX, 2) + Math.pow(this.posZ - e.posZ, 2)) > e.width + 3.0F)
 						continue;
 					// TODO: Custom DamageSource?
-					((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, owner), 3);
+					e.hurtResistantTime = 0;
+					e.hurtTime = 0;
+					((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, owner),
+							bladeDamage);
 				}
 			}
 		}
@@ -100,9 +108,9 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		if (compound.hasUniqueId("attached")) {
+		if (compound.hasUniqueId("attached"))
 			attachedUUID = compound.getUniqueId("attached");
-		}
+		lifeTicks = compound.getInteger("lifespan");
 	}
 
 	@Override
@@ -110,6 +118,7 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 		super.writeEntityToNBT(compound);
 		if (attached != null)
 			compound.setUniqueId("attached", attached.getUniqueID());
+		compound.setInteger("lifespan", lifeTicks);
 	}
 
 	@Override
