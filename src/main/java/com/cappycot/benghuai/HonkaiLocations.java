@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class HonkaiLocations {
 
-	public static final ResourceLocation RAIKIRI_SWORDS_TEXTURE = new ResourceLocation(HonkaiStrings.MODID,
+	public static final ResourceLocation RAIKIRI_SWORDS_TEXTURE = new ResourceLocation(HonkaiValues.MODID,
 			"textures/entity/raikiri.png");
 
 }
