@@ -1,6 +1,6 @@
 package com.cappycot.benghuai.item;
 
-import com.cappycot.benghuai.HonkaiStrings;
+import com.cappycot.benghuai.HonkaiValues;
 import com.cappycot.benghuai.ImpactCraft;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,7 +13,7 @@ public abstract class ItemTemplate extends Item {
 	public ItemTemplate(String name) {
 		this.name = name;
 		setRegistryName(name);
-		setUnlocalizedName(HonkaiStrings.MODID + "." + name);
+		setUnlocalizedName(HonkaiValues.MODID + "." + name);
 	}
 
 	public void registerItemModel() {

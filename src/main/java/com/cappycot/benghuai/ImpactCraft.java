@@ -21,12 +21,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-@Mod(modid = HonkaiStrings.MODID, name = HonkaiStrings.NAME, version = HonkaiStrings.VERSION)
+@Mod(modid = HonkaiValues.MODID, name = HonkaiValues.NAME, version = HonkaiValues.VERSION)
 public class ImpactCraft {
 
-	private static Logger logger = LogManager.getLogger(HonkaiStrings.NAME);
+	private static Logger logger = LogManager.getLogger(HonkaiValues.NAME);
 
-	@Instance(HonkaiStrings.MODID)
+	@Instance(HonkaiValues.MODID)
 	public static ImpactCraft instance;
 
 	@SidedProxy(serverSide = "com.cappycot.benghuai.proxy.CommonProxy", clientSide = "com.cappycot.benghuai.proxy.ClientProxy")
@@ -40,12 +40,14 @@ public class ImpactCraft {
 		logger.info(noOneWillFindThis[(int) (Math.random() * noOneWillFindThis.length)]);
 	}
 
+	public static final int RAIKIRI_SWORDS_ID = 480; // TODO: Move to new entity IDs class.
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// TODO: Move to new class with event listener for entity registration.
-		EntityRegistry.registerModEntity(new ResourceLocation(HonkaiStrings.MODID, HonkaiStrings.RAIKIRI_SWORDS_NAME),
-				EntityRaikiriSwords.class, HonkaiStrings.RAIKIRI_SWORDS_NAME, HonkaiNumbers.RAIKIRI_SWORDS_ID,
-				ImpactCraft.instance, 64, 1, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(HonkaiValues.MODID, HonkaiValues.RAIKIRI_SWORDS_NAME),
+				EntityRaikiriSwords.class, HonkaiValues.RAIKIRI_SWORDS_NAME, RAIKIRI_SWORDS_ID, ImpactCraft.instance,
+				64, 1, false);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRaikiriSwords.class,
 				new IRenderFactory<EntityRaikiriSwords>() {
 					@Override
