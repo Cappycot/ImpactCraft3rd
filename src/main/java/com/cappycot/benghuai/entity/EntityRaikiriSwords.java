@@ -78,7 +78,7 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 					// TODO: Custom DamageSource?
 					e.hurtResistantTime = 0;
 					e.hurtTime = 0;
-					((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, owner),
+					((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, attached),
 							bladeDamage);
 				}
 			}
