@@ -21,16 +21,20 @@ public abstract class ItemHonkaiGauntlet extends ItemHonkaiWeapon {
 		super(name, spcap);
 	}
 
+	public static boolean gauntletsActive(ItemStack gauntlet) {
+		NBTTagCompound tags = gauntlet.getTagCompound();
+		return tags != null && tags.getBoolean("gauntlets");
+	}
+
 	/**
 	 * No shield can stand up 100% to a barrage of ORAORAORAORAORAORAORA...
 	 */
 	public boolean canDisableShield(ItemStack stack, ItemStack shield, EntityLivingBase entity,
 			EntityLivingBase attacker) {
-		ItemStack mainStack = attacker.getHeldItemMainhand();
-		ItemStack offStack = attacker.getHeldItemOffhand();
+		// ItemStack mainStack = attacker.getHeldItemMainhand();
+		// TODO: Check that the stack variable is pointing to main hand attacker stack.
 		// TODO: Reduce canDisableShield chance from 100% to some percent.
-		return mainStack != null && offStack != null && mainStack.getItem() instanceof ItemHonkaiGauntlet
-				&& mainStack.getItem().equals(offStack.getItem());
+		return gauntletsActive(stack);
 	}
 
 	/**
@@ -42,13 +46,13 @@ public abstract class ItemHonkaiGauntlet extends ItemHonkaiWeapon {
 			return;
 		EntityPlayer player = (EntityPlayer) entity;
 		NBTTagCompound tags = stack.getTagCompound();
-		if (player.getHeldItemMainhand() == stack && !player.getHeldItemOffhand().getItem().equals(stack.getItem())) {
-			if (tags == null) {
-				tags = new NBTTagCompound();
-				stack.setTagCompound(tags);
-			}
+		if (tags == null) {
+			tags = new NBTTagCompound();
+			stack.setTagCompound(tags);
+		}
+		if (isSelected && !player.getHeldItemOffhand().getItem().equals(stack.getItem()))
 			tags.setBoolean("gauntlets", false);
-		} else if (tags != null)
+		else
 			tags.setBoolean("gauntlets", true);
 	}
 
@@ -81,8 +85,7 @@ public abstract class ItemHonkaiGauntlet extends ItemHonkaiWeapon {
 	 * your punches are stronker idk lmao
 	 */
 	public float getDestroySpeed(ItemStack stack, IBlockState state) {
-		NBTTagCompound tags = stack.getTagCompound();
-		return tags != null && tags.getBoolean("gauntlets") ? 2.0F : 1.5F;
+		return gauntletsActive(stack) ? 2.0F : 1.5F;
 	}
 
 }
