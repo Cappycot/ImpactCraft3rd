@@ -11,17 +11,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @EventBusSubscriber
 public class WeaponHandler {
-	
+
 	/**
-	 * Reset weapon SP to 0.
+	 * Allow for instant weapon skill use in creative mode.
 	 */
-	// @SubscribeEvent
+	@SubscribeEvent
 	public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
-		ItemStack itemTo = event.getTo();
-		if (!(itemTo.getItem() instanceof ItemHonkaiSword && event.getEntityLiving() instanceof EntityPlayer))
+		ItemStack stack = event.getTo();
+		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-		if (event.getFrom().getItem() != itemTo.getItem() && itemTo.getItem() instanceof HonkaiWeapon)
-			itemTo.setItemDamage(player.capabilities.isCreativeMode ? itemTo.getMaxDamage() : 0);
+		if (stack.getItem() instanceof HonkaiWeapon && player.capabilities.isCreativeMode)
+			stack.setItemDamage(stack.getMaxDamage());
 	}
 }
