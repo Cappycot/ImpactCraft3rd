@@ -1,7 +1,6 @@
 package com.cappycot.benghuai.item;
 
 import com.cappycot.benghuai.HonkaiConfig;
-import com.cappycot.benghuai.entity.EntityRaikiriSwords;
 import com.cappycot.benghuai.util.Alliance;
 
 import net.minecraft.entity.Entity;
@@ -16,8 +15,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,8 +36,11 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 		if (!(entity instanceof EntityPlayer))
 			return;
 		else if (airgetlam(stack)
-				&& (stack != ((EntityPlayer) entity).getHeldItemMainhand() || !gauntletsActive(stack)))
+				&& (stack != ((EntityPlayer) entity).getHeldItemMainhand() || !gauntletsActive(stack))) {
 			stack.getTagCompound().setBoolean("airgetlam", false);
+			stack.setItemDamage(stack.getMaxDamage());
+			// ((EntityPlayer) entity).getCooldownTracker().removeCooldown(this);
+		}
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity victim) {
 		World world = player.world;
 		if (airgetlam(stack) && victim instanceof EntityLivingBase
-				&& !Alliance.shouldNotHarmByPlayer((EntityLivingBase) victim, player)) {
+				&& !Alliance.isAllyOfPlayer((EntityLivingBase) victim, player)) {
 			float skillDamage = 0F;
 			if (!world.isRemote) {
 				int upgrades = 0;
@@ -86,7 +86,7 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 			}
 			for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class,
 					victim.getEntityBoundingBox().grow(2, 0, 2))) {
-				if (!Alliance.shouldNotHarmByPlayer(entity, player)) {
+				if (!Alliance.shouldNotHarmByPlayer(entity, player) || entity == victim) {
 					if (!world.isRemote) {
 						// TODO: Make sure damage source is correct. Also check damage invuln time.
 						entity.attackEntityFrom(DamageSource.causePlayerDamage(player), skillDamage);
@@ -123,8 +123,8 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 				tags = new NBTTagCompound();
 				itemStack.setTagCompound(tags);
 			}
-			if (!player.capabilities.isCreativeMode)
-				player.getCooldownTracker().setCooldown(this, 400);
+			// if (!player.capabilities.isCreativeMode)
+			// player.getCooldownTracker().setCooldown(this, 400);
 			itemStack.setItemDamage(0);
 			tags.setBoolean("airgetlam", true);
 		}
