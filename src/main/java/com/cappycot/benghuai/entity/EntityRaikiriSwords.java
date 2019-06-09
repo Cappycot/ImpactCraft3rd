@@ -1,16 +1,11 @@
 package com.cappycot.benghuai.entity;
 
-import java.util.HashMap;
 import java.util.UUID;
 
-import com.cappycot.benghuai.HonkaiConfig;
 import com.cappycot.benghuai.util.Alliance;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;

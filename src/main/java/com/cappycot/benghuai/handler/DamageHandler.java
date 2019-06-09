@@ -1,6 +1,5 @@
 package com.cappycot.benghuai.handler;
 
-import com.cappycot.benghuai.entity.EntityRaikiriSwords;
 import com.cappycot.benghuai.item.HonkaiWeapon;
 import com.cappycot.benghuai.util.Alliance;
 
@@ -10,9 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @EventBusSubscriber

@@ -1,12 +1,10 @@
 package com.cappycot.benghuai.item;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.cappycot.benghuai.HonkaiConfig;
 import com.cappycot.benghuai.HonkaiValues;
 import com.cappycot.benghuai.ImpactCraft;
 import com.cappycot.benghuai.util.Alliance;
@@ -23,12 +21,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -94,9 +87,12 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 	 * damage is done, if return value is true further processing is canceled and
 	 * the entity is not attacked.
 	 *
-	 * @param stack  The Item being used
-	 * @param player The player that is attacking
-	 * @param entity The entity being attacked
+	 * @param stack
+	 *            The Item being used
+	 * @param player
+	 *            The player that is attacking
+	 * @param entity
+	 *            The entity being attacked
 	 * @return True to cancel the rest of the interaction.
 	 */
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
@@ -143,9 +139,11 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 	 * useful for adding something extra that can't be removed by a user in the
 	 * displayed name, such as a mode of operation.
 	 *
-	 * @param item        the ItemStack for the item.
-	 * @param displayName the name that will be displayed unless it is changed in
-	 *                    this method.
+	 * @param item
+	 *            the ItemStack for the item.
+	 * @param displayName
+	 *            the name that will be displayed unless it is changed in this
+	 *            method.
 	 */
 	public String getHighlightTip(ItemStack item, String displayName) {
 		NBTTagCompound tags = item.getTagCompound();

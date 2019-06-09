@@ -1,18 +1,11 @@
 package com.cappycot.benghuai.item;
 
-import javax.annotation.Nonnull;
-
 import com.cappycot.benghuai.HonkaiConfig;
 import com.cappycot.benghuai.entity.EntityRaikiriSwords;
 import com.cappycot.benghuai.util.Alliance;
-import com.google.common.collect.Multimap;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;

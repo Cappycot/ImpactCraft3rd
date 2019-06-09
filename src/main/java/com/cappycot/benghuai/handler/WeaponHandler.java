@@ -1,7 +1,6 @@
 package com.cappycot.benghuai.handler;
 
 import com.cappycot.benghuai.item.HonkaiWeapon;
-import com.cappycot.benghuai.item.ItemHonkaiSword;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
