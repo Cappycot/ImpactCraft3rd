@@ -6,11 +6,11 @@ import com.cappycot.benghuai.ImpactCraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-public abstract class ItemTemplate extends Item {
+public class ItemHonkai extends Item {
 
 	private String name;
 
-	public ItemTemplate(String name) {
+	public ItemHonkai(String name) {
 		this.name = name;
 		setRegistryName(name);
 		setUnlocalizedName(HonkaiValues.MODID + "." + name);
@@ -21,7 +21,7 @@ public abstract class ItemTemplate extends Item {
 	}
 
 	@Override
-	public ItemTemplate setCreativeTab(CreativeTabs tab) {
+	public ItemHonkai setCreativeTab(CreativeTabs tab) {
 		super.setCreativeTab(tab);
 		return this;
 	}
