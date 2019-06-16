@@ -1,6 +1,7 @@
 package com.cappycot.benghuai.item;
 
-public class ItemCrystal extends ItemTemplate {
+@Deprecated
+public class ItemCrystal extends ItemHonkai {
 	public ItemCrystal(String name) {
 		super(name);
 	}
