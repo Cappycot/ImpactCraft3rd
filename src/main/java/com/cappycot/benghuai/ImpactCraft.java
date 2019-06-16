@@ -4,8 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cappycot.benghuai.entity.EntityRaikiriSwords;
+import com.cappycot.benghuai.entity.EntityTimeSlowField;
 import com.cappycot.benghuai.proxy.CommonProxy;
 import com.cappycot.benghuai.render.RenderRaikiriSwords;
+import com.cappycot.benghuai.render.RenderTimeFracture;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -54,6 +56,16 @@ public class ImpactCraft {
 					public Render<? super EntityRaikiriSwords> createRenderFor(RenderManager manager) {
 						// TODO Auto-generated method stub
 						return new RenderRaikiriSwords(manager);
+					}
+				});
+		EntityRegistry.registerModEntity(new ResourceLocation(HonkaiValues.MODID, "timeslow"),
+				EntityTimeSlowField.class, "timeslow", RAIKIRI_SWORDS_ID + 1, ImpactCraft.instance, 64, 1, false);
+		RenderingRegistry.registerEntityRenderingHandler(EntityTimeSlowField.class,
+				new IRenderFactory<EntityTimeSlowField>() {
+					@Override
+					public Render<? super EntityTimeSlowField> createRenderFor(RenderManager manager) {
+						// TODO Auto-generated method stub
+						return new RenderTimeFracture(manager);
 					}
 				});
 		logger.info("Completed preInit event.");
