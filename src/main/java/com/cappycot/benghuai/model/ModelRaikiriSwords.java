@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 /**
+ * Model for primary summoned blades.
+ * 
  * Raikiri - Cappycot Created using Tabula 7.0.1
  */
 public class ModelRaikiriSwords extends ModelBase {

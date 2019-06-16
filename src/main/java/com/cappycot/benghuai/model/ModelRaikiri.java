@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 /**
  * Raikiri - Cappycot Created using Tabula 7.0.1
  */
+@Deprecated
 public class ModelRaikiri extends ModelBase {
 	public ModelRenderer HandleBase;
 	public ModelRenderer shape49;

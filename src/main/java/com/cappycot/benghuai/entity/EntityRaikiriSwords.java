@@ -103,7 +103,8 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 		super.readEntityFromNBT(compound);
 		if (compound.hasUniqueId("attached"))
 			attachedUUID = compound.getUniqueId("attached");
-		lifeTicks = compound.getInteger("lifespan");
+		if (compound.hasKey("lifespan"))
+			lifeTicks = compound.getInteger("lifespan");
 	}
 
 	@Override
@@ -111,6 +112,7 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 		super.writeEntityToNBT(compound);
 		if (attached != null)
 			compound.setUniqueId("attached", attached.getUniqueID());
+
 		compound.setInteger("lifespan", lifeTicks);
 	}
 

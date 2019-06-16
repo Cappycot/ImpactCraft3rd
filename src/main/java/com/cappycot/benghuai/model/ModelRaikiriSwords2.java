@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 /**
+ * Model for secondary decoration swords.
+ * 
  * Raikiri - Cappycot Created using Tabula 7.0.1
  */
 public class ModelRaikiriSwords2 extends ModelBase {
