@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.cappycot.benghuai.HonkaiValues;
 import com.cappycot.benghuai.ImpactCraft;
 import com.cappycot.benghuai.util.Alliance;
+import com.cappycot.benghuai.util.ItemHelper;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.block.state.IBlockState;
@@ -20,8 +21,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,16 +34,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon {
 
 	private String name;
-	private int spcap; // TODO: Find a better name for the SP threshold.
+	private int maxSP;
+	private int maxUpgrades;
 
-	public ItemHonkaiSword(ToolMaterial material, String name, int spcap) {
+	public ItemHonkaiSword(ToolMaterial material, String name, int maxSP, int maxUpgrades) {
 		super(material); // TODO: Change material to new Honkai material.
-		setMaxDamage(spcap);
+		setMaxDamage(maxSP);
 		setRegistryName(name);
 		setNoRepair();
 		setUnlocalizedName(HonkaiValues.MODID + "." + name);
 		this.name = name;
-		this.spcap = spcap;
+		this.maxSP = maxSP;
+		this.maxUpgrades = maxUpgrades;
+	}
+
+	@Override
+	public int getMaxSP() {
+		return maxSP;
+	}
+
+	@Override
+	public int getMaxUpgrades() {
+		return maxUpgrades;
 	}
 
 	public void registerItemModel() {
@@ -50,25 +63,29 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 	}
 
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1 - super.getDurabilityForDisplay(stack);
+	public boolean isDamageable() {
+		return false;
+	}
+
+	public boolean showDurabilityBar(ItemStack stack) {
+		return true;
 	}
 
 	@Override
 	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return stack.getItemDamage() == stack.getMaxDamage() ? 0x0000FFFF : 0x00FF8000;
+		return stack.getItemDamage() == 0 ? 0x0000FFFF : 0x00FF8000;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return stack.getItemDamage() == stack.getMaxDamage();
+		return stack.getItemDamage() == 0;
 	}
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-		if (stack.getItemDamage() < stack.getMaxDamage())
-			stack.setItemDamage(stack.getItemDamage() + 1);
+		if (stack.getItemDamage() > 0)
+			stack.setItemDamage(stack.getItemDamage() - 1);
 		return true;
 	}
 
@@ -112,13 +129,9 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 			ItemStack itemStack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot, itemStack);
 		if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
-			int upgrades = 0;
-			NBTTagCompound tags = itemStack.getTagCompound();
-			if (tags != null)
-				upgrades = tags.getInteger("upgrades");
 			// 0 gives an attack of 1 (0.5 heart).
 			AttributeModifier damageModifier = new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier",
-					getDamage(upgrades), 0);
+					getDamage(ItemHelper.getUpgrades(itemStack)), 0);
 			// 0 gives an attack speed of 4 (times per second).
 			AttributeModifier speedModifier = new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", 6, 0);
 			// remove the entries added by superclass (to allow 'overwriting')
@@ -135,26 +148,14 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 	}
 
 	/**
-	 * Allow the item one last chance to modify its name used for the tool highlight
-	 * useful for adding something extra that can't be removed by a user in the
-	 * displayed name, such as a mode of operation.
-	 *
-	 * @param item
-	 *            the ItemStack for the item.
-	 * @param displayName
-	 *            the name that will be displayed unless it is changed in this
-	 *            method.
+	 * Need to figure out why the super implementation is using the get unlocalized
+	 * name inefficiently method...
 	 */
-	public String getHighlightTip(ItemStack item, String displayName) {
-		NBTTagCompound tags = item.getTagCompound();
-		if (tags != null) {
-			int upgrades = tags.getInteger("upgrades");
-			if (upgrades > 0)
-				// I don't think String.format gives that great of an optimization if any in
-				// this case.
-				return displayName + " +" + upgrades;
-		}
-		return displayName;
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		int upgrades = ItemHelper.getUpgrades(stack);
+		return I18n.translateToLocal(this.getUnlocalizedName(stack) + ".name").trim()
+				+ (upgrades > 0 ? (" +" + upgrades) : "");
 	}
 
 	/**

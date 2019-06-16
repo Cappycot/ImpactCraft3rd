@@ -1,0 +1,8 @@
+{
+    "ingredients": {
+        "honkai_upgradeable": "com.cappycot.benghuai.crafting.HonkaiIngredientFactory"
+    },
+    "recipes": {
+        "honkai_shapeless_upgrade": "com.cappycot.benghuai.crafting.HonkaiShapelessUpgradeRecipe$Factory"
+    }
+}

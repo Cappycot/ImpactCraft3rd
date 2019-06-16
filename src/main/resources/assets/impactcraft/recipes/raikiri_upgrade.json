@@ -1,0 +1,15 @@
+{
+    "type": "impactcraft:honkai_shapeless_upgrade",
+    "ingredients": [
+        {
+            "type": "impactcraft:honkai_upgradeable",
+            "item": "impactcraft:raikiri"
+        },
+        {
+            "item": "impactcraft:crystal"
+        }
+    ],
+    "result": {
+        "item": "impactcraft:raikiri"
+    }
+}

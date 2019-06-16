@@ -3,11 +3,11 @@ package com.cappycot.benghuai.item;
 import com.cappycot.benghuai.HonkaiConfig;
 import com.cappycot.benghuai.entity.EntityRaikiriSwords;
 import com.cappycot.benghuai.util.Alliance;
+import com.cappycot.benghuai.util.ItemHelper;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ItemRaikiri extends ItemHonkaiSword {
 
 	public ItemRaikiri(String name) {
-		super(ToolMaterial.DIAMOND, name, HonkaiConfig.RAIKIRI.SP);
+		super(ToolMaterial.DIAMOND, name, HonkaiConfig.RAIKIRI.SP, 3);
 	}
 
 	/**
@@ -27,15 +27,10 @@ public class ItemRaikiri extends ItemHonkaiSword {
 		if (hand != EnumHand.MAIN_HAND)
 			return super.onItemRightClick(world, player, hand);
 		ItemStack itemStack = player.getHeldItemMainhand();
-		if (!world.isRemote && itemStack.getItemDamage() == itemStack.getMaxDamage()
-				&& !player.getCooldownTracker().hasCooldown(this)) {
-			int upgrades = 0;
-			NBTTagCompound tags = itemStack.getTagCompound();
-			if (tags != null)
-				upgrades = tags.getInteger("upgrades");
+		if (!world.isRemote && itemStack.getItemDamage() == 0 && !player.getCooldownTracker().hasCooldown(this)) {
 			float bladeDamage;
 			int bladeTicks;
-			switch (upgrades) {
+			switch (ItemHelper.getUpgrades(itemStack)) {
 			case 0:
 				bladeDamage = (float) HonkaiConfig.RAIKIRI.bladeDamage0;
 				bladeTicks = HonkaiConfig.RAIKIRI.bladeTicks0;
@@ -62,7 +57,7 @@ public class ItemRaikiri extends ItemHonkaiSword {
 					world.spawnEntity(new EntityRaikiriSwords(world, player, entity, bladeDamage, bladeTicks));
 			// TODO: Grant defense bonus to entities with blades.
 			// AttributeModifier.player.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(modifier);
-			itemStack.setItemDamage(0);
+			itemStack.setItemDamage(itemStack.getMaxDamage());
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
 	}
