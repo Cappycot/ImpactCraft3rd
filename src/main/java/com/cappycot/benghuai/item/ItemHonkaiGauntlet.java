@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 
 public abstract class ItemHonkaiGauntlet extends ItemHonkaiWeapon {
 
-	public ItemHonkaiGauntlet(String name, int spcap) {
-		super(name, spcap);
+	public ItemHonkaiGauntlet(String name, int maxSP, int maxUpgrades) {
+		super(name, maxSP, maxUpgrades);
 	}
 
 	public static boolean gauntletsActive(ItemStack gauntlet) {

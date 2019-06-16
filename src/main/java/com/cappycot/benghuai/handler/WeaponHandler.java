@@ -21,6 +21,6 @@ public class WeaponHandler {
 			return;
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 		if (stack.getItem() instanceof HonkaiWeapon && player.capabilities.isCreativeMode)
-			stack.setItemDamage(stack.getMaxDamage());
+			stack.setItemDamage(0);
 	}
 }

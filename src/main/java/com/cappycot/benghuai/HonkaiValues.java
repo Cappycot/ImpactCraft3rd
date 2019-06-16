@@ -13,6 +13,9 @@ public class HonkaiValues {
 	public static final String CRYSTAL_SHARD = "crystal_shard";
 	public static final String RAIKIRI = "raikiri";
 	public static final String NUADAS_GRIEF = "nuadas_grief";
+	// Item Tags
+	public static final String UPGRADE_TAG = "upgrades";
 	// Entity Names
 	public static final String RAIKIRI_SWORDS_NAME = "raikiri_swords";
+	public static final String TIME_FRACTURE_TAG = "timefractured";
 }

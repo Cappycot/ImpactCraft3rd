@@ -2,6 +2,7 @@ package com.cappycot.benghuai.item;
 
 import com.cappycot.benghuai.HonkaiConfig;
 import com.cappycot.benghuai.util.Alliance;
+import com.cappycot.benghuai.util.ItemHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 
 	public ItemNuadasGrief(String name) {
-		super(name, HonkaiConfig.NUADAS_GRIEF.SP);
+		super(name, HonkaiConfig.NUADAS_GRIEF.SP, 3);
 	}
 
 	private static boolean airgetlam(ItemStack stack) {
@@ -38,9 +39,14 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 		else if (airgetlam(stack)
 				&& (stack != ((EntityPlayer) entity).getHeldItemMainhand() || !gauntletsActive(stack))) {
 			stack.getTagCompound().setBoolean("airgetlam", false);
-			stack.setItemDamage(stack.getMaxDamage());
+			stack.setItemDamage(0);
 			// ((EntityPlayer) entity).getCooldownTracker().removeCooldown(this);
 		}
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return airgetlam(stack) || super.showDurabilityBar(stack);
 	}
 
 	@Override
@@ -51,11 +57,6 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 	@Override
 	public int getRGBDurabilityForDisplay(ItemStack stack) {
 		return airgetlam(stack) ? 0x00FF0000 : super.getRGBDurabilityForDisplay(stack);
-	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
-		return airgetlam(stack) || super.showDurabilityBar(stack);
 	}
 
 	@Override
@@ -71,11 +72,7 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 				&& !Alliance.isAllyOfPlayer((EntityLivingBase) victim, player)) {
 			float skillDamage = 0F;
 			if (!world.isRemote) {
-				int upgrades = 0;
-				NBTTagCompound tags = stack.getTagCompound();
-				if (tags != null)
-					upgrades = tags.getInteger("upgrades");
-				switch (upgrades) {
+				switch (ItemHelper.getUpgrades(stack)) {
 				case 0:
 				case 1:
 				case 2:
@@ -115,8 +112,7 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 		if (hand != EnumHand.MAIN_HAND)
 			return super.onItemRightClick(world, player, hand);
 		ItemStack itemStack = player.getHeldItemMainhand();
-		if (!world.isRemote && gauntletsActive(itemStack) && !airgetlam(itemStack)
-				&& itemStack.getItemDamage() == itemStack.getMaxDamage()
+		if (!world.isRemote && gauntletsActive(itemStack) && !airgetlam(itemStack) && itemStack.getItemDamage() == 0
 				&& !player.getCooldownTracker().hasCooldown(this)) {
 			NBTTagCompound tags = itemStack.getTagCompound();
 			if (tags == null) {
@@ -125,7 +121,7 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 			}
 			// if (!player.capabilities.isCreativeMode)
 			// player.getCooldownTracker().setCooldown(this, 400);
-			itemStack.setItemDamage(0);
+			itemStack.setItemDamage(itemStack.getMaxDamage());
 			tags.setBoolean("airgetlam", true);
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));

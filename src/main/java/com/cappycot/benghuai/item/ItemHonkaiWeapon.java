@@ -20,44 +20,55 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 
 	private String name;
-	private int spcap; // TODO: Find a better name for the SP threshold.
+	private int maxSP;
+	private int maxUpgrades;
 
-	public ItemHonkaiWeapon(String name, int spcap) {
-		setMaxDamage(spcap);
+	public ItemHonkaiWeapon(String name, int maxSP, int maxUpgrades) {
+		setMaxDamage(maxSP);
 		setMaxStackSize(1);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.COMBAT);
 		setNoRepair();
 		setUnlocalizedName(HonkaiValues.MODID + "." + name);
 		this.name = name;
-		this.spcap = spcap;
+		this.maxSP = maxSP;
+		this.maxUpgrades = maxUpgrades;
+	}
+	
+	@Override
+	public int getMaxSP() {
+		return maxSP;
+	}
+	
+	@Override
+	public int getMaxUpgrades() {
+		return maxUpgrades;
 	}
 
 	public void registerItemModel() {
 		ImpactCraft.proxy.registerItemRenderer(this, 0, name);
 	}
-
-	// Overrides of Item Functions
+	
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1 - super.getDurabilityForDisplay(stack);
+	public boolean showDurabilityBar(ItemStack stack) {
+		return true;
 	}
 
 	@Override
 	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return stack.getItemDamage() == stack.getMaxDamage() ? 0x0000FFFF : 0x00FF8000;
+		return stack.getItemDamage() == 0 ? 0x0000FFFF : 0x00FF8000;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return stack.getItemDamage() == stack.getMaxDamage();
+		return stack.getItemDamage() == 0;
 	}
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-		if (stack.getItemDamage() < stack.getMaxDamage())
-			stack.setItemDamage(stack.getItemDamage() + 1);
+		if (stack.getItemDamage() > 0)
+			stack.setItemDamage(stack.getItemDamage() - 1);
 		return true;
 	}
 
@@ -84,25 +95,5 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 	 */
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		return entity instanceof EntityLivingBase && Alliance.isAllyOfPlayer((EntityLivingBase) entity, player);
-	}
-
-	/**
-	 * Allow the item one last chance to modify its name used for the tool highlight
-	 * useful for adding something extra that can't be removed by a user in the
-	 * displayed name, such as a mode of operation.
-	 *
-	 * @param item        the ItemStack for the item.
-	 * @param displayName the name that will be displayed unless it is changed in
-	 *                    this method.
-	 */
-	public String getHighlightTip(ItemStack item, String displayName) {
-		NBTTagCompound tags = item.getTagCompound();
-		if (tags != null) {
-			int upgrades = tags.getInteger("upgrades");
-			if (upgrades > 0)
-				// I don't think String.format gives that great of an optimization if any.
-				return displayName + " +" + upgrades;
-		}
-		return displayName;
 	}
 }

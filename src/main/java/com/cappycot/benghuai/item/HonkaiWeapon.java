@@ -1,5 +1,7 @@
 package com.cappycot.benghuai.item;
 
-public interface HonkaiWeapon {
+public interface HonkaiWeapon extends IHonkaiUpgradeable {
+
+	public int getMaxSP();
 
 }
