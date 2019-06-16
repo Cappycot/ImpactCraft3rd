@@ -1,0 +1,11 @@
+{
+  "record.lyin": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "impactcraft:lyin",
+        "stream": true
+      }
+    ]
+  }
+}
