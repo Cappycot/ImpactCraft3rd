@@ -1,4 +1,13 @@
 {
+  "airgetlam": {
+    "category": "player",
+    "subtitle": "subtitles.impactcraft.airgetlam",
+    "sounds": [
+        "impactcraft:airgetlam",
+        "impactcraft:airgetlam2",
+        "impactcraft:airgetlam3"
+    ]
+  },
   "record.lyin": {
     "category": "record",
     "sounds": [

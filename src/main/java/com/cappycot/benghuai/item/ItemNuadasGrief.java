@@ -1,6 +1,7 @@
 package com.cappycot.benghuai.item;
 
 import com.cappycot.benghuai.HonkaiConfig;
+import com.cappycot.benghuai.registry.SoundRegistry;
 import com.cappycot.benghuai.util.Alliance;
 import com.cappycot.benghuai.util.ItemHelper;
 
@@ -95,9 +96,8 @@ public class ItemNuadasGrief extends ItemHonkaiGauntlet {
 					}
 				}
 			}
-			world.playSound((EntityPlayer) null, victim.posX, victim.posY, victim.posZ,
-					SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F,
-					(1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+			world.playSound((EntityPlayer) null, victim.posX, victim.posY, victim.posZ, SoundRegistry.SOUND_AIRGETLAM,
+					SoundCategory.PLAYERS, 4.0F, 1.0F);
 			if (!player.capabilities.isCreativeMode)
 				player.getCooldownTracker().setCooldown(this, 400);
 			player.setSprinting(false);
