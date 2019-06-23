@@ -3,9 +3,12 @@ package com.cappycot.benghuai;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.cappycot.benghuai.entity.EntityPistolShot;
 import com.cappycot.benghuai.entity.EntityRaikiriSwords;
 import com.cappycot.benghuai.entity.EntityTimeSlowField;
+import com.cappycot.benghuai.handler.WeaponHandler;
 import com.cappycot.benghuai.proxy.CommonProxy;
+import com.cappycot.benghuai.render.RenderNothing;
 import com.cappycot.benghuai.render.RenderRaikiriSwords;
 import com.cappycot.benghuai.render.RenderTimeFracture;
 
@@ -22,6 +25,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = HonkaiValues.MODID, name = HonkaiValues.NAME, version = HonkaiValues.VERSION)
 public class ImpactCraft {
@@ -68,6 +72,18 @@ public class ImpactCraft {
 						return new RenderTimeFracture(manager);
 					}
 				});
+		EntityRegistry.registerModEntity(new ResourceLocation(HonkaiValues.MODID, "pistolshot"), EntityPistolShot.class,
+				"pistolshot", RAIKIRI_SWORDS_ID + 2, ImpactCraft.instance, 64, 1, false);
+		RenderingRegistry.registerEntityRenderingHandler(EntityPistolShot.class,
+				new IRenderFactory<EntityPistolShot>() {
+					@Override
+					public Render<? super EntityPistolShot> createRenderFor(RenderManager manager) {
+						// TODO Auto-generated method stub
+						return new RenderNothing(manager);
+					}
+				});
+		WeaponHandler.NETWORK.registerMessage(WeaponHandler.PistolFireHandler.class,
+				WeaponHandler.PistolFireMessage.class, 0, Side.SERVER);
 		logger.info("Completed preInit event.");
 	}
 

@@ -24,7 +24,8 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 	private int maxUpgrades;
 
 	public ItemHonkaiWeapon(String name, int maxSP, int maxUpgrades) {
-		setMaxDamage(maxSP);
+		if (maxSP > 0)
+			setMaxDamage(maxSP);
 		setMaxStackSize(1);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.COMBAT);
@@ -34,12 +35,12 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 		this.maxSP = maxSP;
 		this.maxUpgrades = maxUpgrades;
 	}
-	
+
 	@Override
 	public int getMaxSP() {
 		return maxSP;
 	}
-	
+
 	@Override
 	public int getMaxUpgrades() {
 		return maxUpgrades;
@@ -48,10 +49,10 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 	public void registerItemModel() {
 		ImpactCraft.proxy.registerItemRenderer(this, 0, name);
 	}
-	
+
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		return true;
+		return maxSP > 0;
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return stack.getItemDamage() == 0;
+		return maxSP > 0 && stack.getItemDamage() == 0;
 	}
 
 	@Override
@@ -88,9 +89,12 @@ public abstract class ItemHonkaiWeapon extends Item implements HonkaiWeapon {
 	 * damage is done, if return value is true further processing is canceled and
 	 * the entity is not attacked.
 	 *
-	 * @param stack  The Item being used
-	 * @param player The player that is attacking
-	 * @param entity The entity being attacked
+	 * @param stack
+	 *            The Item being used
+	 * @param player
+	 *            The player that is attacking
+	 * @param entity
+	 *            The entity being attacked
 	 * @return True to cancel the rest of the interaction.
 	 */
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {

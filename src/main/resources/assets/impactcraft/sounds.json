@@ -8,6 +8,15 @@
         "impactcraft:airgetlam3"
     ]
   },
+  "pistol_fire": {
+    "category": "player",
+    "subtitle": "subtitles.impactcraft.pistol_fire",
+    "sounds": [
+        "impactcraft:pistol_fire",
+        "impactcraft:pistol_fire2",
+        "impactcraft:pistol_fire3"
+    ]
+  },
   "record.lyin": {
     "category": "record",
     "sounds": [

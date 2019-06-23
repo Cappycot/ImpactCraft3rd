@@ -3,6 +3,7 @@ package com.cappycot.benghuai.item;
 import java.util.Arrays;
 
 import com.cappycot.benghuai.HonkaiValues;
+import com.cappycot.benghuai.item.weapon.ItemTranquilArias;
 import com.cappycot.benghuai.registry.SoundRegistry;
 import com.cappycot.benghuai.util.ItemHelper;
 
@@ -28,15 +29,17 @@ public class ItemRegistry {
 			.setCreativeTab(CreativeTabs.MATERIALS);
 	public static final ItemNuadasGrief NUADAS_GRIEF = new ItemNuadasGrief(HonkaiValues.NUADAS_GRIEF);
 	public static final ItemRaikiri RAIKIRI = new ItemRaikiri(HonkaiValues.RAIKIRI);
+	public static final ItemTranquilArias TRANQUIL_ARIAS = new ItemTranquilArias(HonkaiValues.TRANQUIL_ARIAS);
 	public static final ItemHonkaiRecord RECORD_LYIN = new ItemHonkaiRecord("lyin", SoundRegistry.SOUND_LYIN);
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(CRYSTAL, CRYSTAL_SHARD, NUADAS_GRIEF, RAIKIRI, RECORD_LYIN);
+		event.getRegistry().registerAll(CRYSTAL, CRYSTAL_SHARD, NUADAS_GRIEF, RAIKIRI, TRANQUIL_ARIAS, RECORD_LYIN);
 		CRYSTAL.registerItemModel();
 		CRYSTAL_SHARD.registerItemModel();
 		NUADAS_GRIEF.registerItemModel();
 		RAIKIRI.registerItemModel();
+		TRANQUIL_ARIAS.registerItemModel();
 		RECORD_LYIN.registerItemModel();
 	}
 }
