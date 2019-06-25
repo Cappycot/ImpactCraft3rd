@@ -2,22 +2,18 @@ package com.cappycot.benghuai.item.weapon;
 
 import javax.annotation.Nonnull;
 
-import com.cappycot.benghuai.entity.EntityPistolShot;
+import com.cappycot.benghuai.HonkaiValues;
 import com.cappycot.benghuai.item.ItemHonkaiWeapon;
-import com.cappycot.benghuai.registry.SoundRegistry;
+import com.cappycot.benghuai.util.ItemHelper;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemHonkaiPistol extends ItemHonkaiWeapon {
@@ -44,15 +40,9 @@ public class ItemHonkaiPistol extends ItemHonkaiWeapon {
 		if (!(entity instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) entity;
-		NBTTagCompound tags = stack.getTagCompound();
-		if (tags == null) {
-			tags = new NBTTagCompound();
-			stack.setTagCompound(tags);
-		}
-		if (isSelected && !player.getHeldItemOffhand().getItem().equals(stack.getItem()))
-			tags.setBoolean("pistols", false);
-		else
-			tags.setBoolean("pistols", true);
+		int lastFired = ItemHelper.getTimeFired(stack);
+		if (lastFired > player.ticksExisted && stack.hasTagCompound())
+			stack.getTagCompound().removeTag(HonkaiValues.PISTOL_FIRED_TAG);
 	}
 
 	/**
@@ -70,8 +60,9 @@ public class ItemHonkaiPistol extends ItemHonkaiWeapon {
 			// 0 gives an attack of 1 (0.5 heart).
 			AttributeModifier damageModifier = new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 1, 0);
 			AttributeModifier speedModifier = new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", 16, 0);
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), damageModifier);
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), speedModifier);
+			// multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
+			// damageModifier);
+			// multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), speedModifier);
 		}
 		return multimap;
 	}
