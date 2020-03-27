@@ -27,5 +27,5 @@ public class HonkaiValues {
 	public static final String RAIKIRI_SWORDS_NAME = "raikiri_swords";
 	public static final String TIME_FRACTURE_NAME = "time_fracture";
 	// TODO: Move to config...
-	public static final int PISTOL_FIRE_COOLDOWN = 14;
+	public static final int PISTOL_FIRE_COOLDOWN = 16;
 }
