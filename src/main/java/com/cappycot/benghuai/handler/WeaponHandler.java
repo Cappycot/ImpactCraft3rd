@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketAnimation;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.MouseEvent;
@@ -66,16 +68,18 @@ public class WeaponHandler {
 				ItemStack off = player.getHeldItemOffhand();
 				if (!(main.getItem() instanceof ItemHonkaiPistol))
 					return;
-				System.out.println(player.ticksExisted);
+				// System.out.println(player.ticksExisted);
 				int lastMain = ItemHelper.getTimeFired(main);
 				if (lastMain + HonkaiValues.PISTOL_FIRE_COOLDOWN < player.ticksExisted) {
 					ItemHelper.setTimeFired(main, player.ticksExisted);
-					// player.swingArm(EnumHand.MAIN_HAND);
+					// Send arm swing notification to everyone except the firing player.
+					world.getEntityTracker().sendToTracking(player, new SPacketAnimation(player, 0));
 				} else if (off.getItem() instanceof ItemHonkaiPistol
 						&& lastMain + HonkaiValues.PISTOL_FIRE_COOLDOWN / 2 < player.ticksExisted
 						&& ItemHelper.getTimeFired(off) < lastMain) {
 					ItemHelper.setTimeFired(off, player.ticksExisted);
-					// player.swingArm(EnumHand.OFF_HAND);
+					// Send arm swing notification to everyone except the firing player.
+					world.getEntityTracker().sendToTracking(player, new SPacketAnimation(player, 3));
 				} else
 					return;
 				EntityPistolShot entityarrow = new EntityPistolShot(world, player);
@@ -83,7 +87,7 @@ public class WeaponHandler {
 				world.spawnEntity(entityarrow);
 				// player.playSound(SoundRegistry.SOUND_PISTOL_FIRE, 2.0F, 1.0F);
 				world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
-						SoundRegistry.SOUND_PISTOL_FIRE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+						SoundRegistry.SOUND_PISTOL_FIRE, SoundCategory.PLAYERS, 4.0F, 1.0F);
 				// System.out.println("fired a shot");
 
 			});
@@ -114,9 +118,8 @@ public class WeaponHandler {
 	@SideOnly(Side.CLIENT)
 	public static void onInput(InputEvent event) {
 		Item item = Minecraft.getMinecraft().player.getHeldItemMainhand().getItem();
-		if (item instanceof ItemHonkaiPistol && Minecraft.getMinecraft().gameSettings.keyBindAttack.isPressed()) {
+		if (item instanceof ItemHonkaiPistol && Minecraft.getMinecraft().gameSettings.keyBindAttack.isPressed())
 			NETWORK.sendToServer(new PistolFireMessage((ItemHonkaiPistol) item));
-		}
 	}
 
 	/**
