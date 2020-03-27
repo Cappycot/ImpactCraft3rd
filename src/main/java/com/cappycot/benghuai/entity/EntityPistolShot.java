@@ -113,6 +113,7 @@ public class EntityPistolShot extends EntityArrow {
 				}
 			} else
 				this.setDead();
-		}
+		} else // TODO: Glass breaking, etc.
+			this.setDead();
 	}
 }
