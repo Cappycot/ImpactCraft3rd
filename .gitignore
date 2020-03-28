@@ -20,8 +20,6 @@ src/main/java/com/example/
 # gradle
 build
 .gradle
-gradle*
-gradle.properties
 
 # other
 eclipse
