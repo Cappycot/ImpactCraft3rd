@@ -12,11 +12,13 @@ import com.cappycot.benghuai.render.RenderNothing;
 import com.cappycot.benghuai.render.RenderRaikiriSwords;
 import com.cappycot.benghuai.render.RenderTimeFracture;
 
+import cappycot.benghuai.tconstruct.HonkaiTConstruct;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -27,7 +29,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = HonkaiValues.MODID, name = HonkaiValues.NAME, version = HonkaiValues.VERSION)
+@Mod(modid = HonkaiValues.MODID, name = HonkaiValues.NAME, version = HonkaiValues.VERSION, dependencies = "after:mantle;after:tconstruct;")
 public class ImpactCraft {
 
 	private static Logger logger = LogManager.getLogger(HonkaiValues.NAME);
@@ -84,6 +86,12 @@ public class ImpactCraft {
 				});
 		WeaponHandler.NETWORK.registerMessage(WeaponHandler.PistolFireHandler.class,
 				WeaponHandler.PistolFireMessage.class, 0, Side.SERVER);
+
+		if (Loader.isModLoaded("tconstruct"))
+			HonkaiTConstruct.init();
+		else
+			logger.info("Tinkers Construct not found. Skipping material.");
+
 		logger.info("Completed preInit event.");
 	}
 
@@ -91,7 +99,18 @@ public class ImpactCraft {
 	public void init(FMLInitializationEvent event) {
 	}
 
+	private static float CIV_MULTIPLIER = 1F;
+
+	public static float getCivilizationMultiplier() {
+		return CIV_MULTIPLIER;
+	}
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		// TODO: Calculate civilization factor.
+		int activeMods = Math.max(0, net.minecraftforge.fml.common.Loader.instance().getActiveModList().size() - 5);
+		CIV_MULTIPLIER = 1F + 0.01F * activeMods;
+		logger.info(String.format("There are %d active mods. Civilization multiplier set to %.2f.", activeMods,
+				CIV_MULTIPLIER));
 	}
 }

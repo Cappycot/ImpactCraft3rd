@@ -4,5 +4,12 @@ item.impactcraft.nuadas_grief.name=Nuada's Grief
 item.impactcraft.raikiri.name=Raikiri
 item.impactcraft.tranquil_arias.name=Tranquil Arias
 item.record.lyin.desc=HOYO-MiX - Lyin (See You in the Next World)
+
+# Sound Subtitles
 subtitles.impactcraft.airgetlam=Airgetlám
 subtitles.impactcraft.pistol_fire=Pistol fired
+
+# Tinkers' Construct
+material.honkaicrystal.name=Honkai Crystal
+modifier.honkaienergy.name=Honkai Energy
+modifier.honkaienergy.desc=§oSocietal Collapse§r\nAs technology advances, the Honkai grows stronger.
