@@ -1,7 +1,6 @@
 package cappycot.benghuai.tconstruct;
 
-import com.cappycot.benghuai.item.ItemRegistry;
-
+import cappycot.benghuai.item.ItemRegistry;
 import net.minecraft.util.text.TextFormatting;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;

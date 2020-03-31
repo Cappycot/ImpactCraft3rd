@@ -1,7 +1,6 @@
 package cappycot.benghuai.tconstruct;
 
-import com.cappycot.benghuai.ImpactCraft;
-
+import cappycot.benghuai.ImpactCraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
