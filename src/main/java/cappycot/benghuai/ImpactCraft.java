@@ -36,7 +36,7 @@ public class ImpactCraft {
 	@Instance(HonkaiValues.MODID)
 	public static ImpactCraft instance;
 
-	@SidedProxy(serverSide = "com.cappycot.benghuai.proxy.CommonProxy", clientSide = "com.cappycot.benghuai.proxy.ClientProxy")
+	@SidedProxy(serverSide = "cappycot.benghuai.proxy.CommonProxy", clientSide = "cappycot.benghuai.proxy.ClientProxy")
 	public static CommonProxy proxy;
 
 	public ImpactCraft() {
