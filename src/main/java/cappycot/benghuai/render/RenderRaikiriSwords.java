@@ -8,11 +8,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderRaikiriSwords extends Render {
+public class RenderRaikiriSwords extends Render<EntityRaikiriSwords> {
 
 	private static final ModelRaikiriSwords modelRaikiri = new ModelRaikiriSwords();
 	private static final ModelRaikiriSwords2 modelRaikiri2 = new ModelRaikiriSwords2();
@@ -22,12 +20,13 @@ public class RenderRaikiriSwords extends Render {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) { 
+	protected ResourceLocation getEntityTexture(EntityRaikiriSwords entity) {
 		return HonkaiLocations.RAIKIRI_SWORDS_TEXTURE;
 	}
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityRaikiriSwords entity, double x, double y, double z, float entityYaw,
+			float partialTicks) {
 		bindEntityTexture(entity);
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		GlStateManager.pushMatrix();
