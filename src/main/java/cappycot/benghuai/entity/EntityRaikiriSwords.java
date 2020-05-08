@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import cappycot.benghuai.util.Alliance;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,8 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAdditionalSpawnData {
 
-	private EntityLivingBase attached = null;
-	private UUID attachedUUID = null;
+	private Entity attached = null; // Was of type EntityLivingBase.
+	private UUID attachedUUID = null; // Entity UUID, not player UUID.
 	private float bladeDamage = 0F;
 	private int lifeTicks = 120;
 
@@ -24,8 +25,7 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 		super(world);
 	}
 
-	public EntityRaikiriSwords(World world, EntityPlayer owner, EntityLivingBase attached, float bladeDamage,
-			int lifeTicks) {
+	public EntityRaikiriSwords(World world, EntityPlayer owner, Entity attached, float bladeDamage, int lifeTicks) {
 		super(world, (EntityPlayer) (owner == null ? (attached instanceof EntityPlayer ? attached : null) : owner));
 		this.attached = attached;
 		this.setPositionAndRotation(attached.posX, attached.posY, attached.posZ, attached.rotationYaw, 0);
@@ -72,29 +72,38 @@ public class EntityRaikiriSwords extends EntityHonkaiWeapon implements IEntityAd
 					// TODO: Custom DamageSource?
 					e.hurtResistantTime = 0;
 					e.hurtTime = 0;
-					((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, attached),
-							bladeDamage);
+					e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, attached), bladeDamage);
 				}
 			}
 		}
 	}
 
-	public EntityLivingBase getAttached() {
+	public Entity getAttached() {
 		return attached;
 	}
 
-	public void setAttached(EntityLivingBase attached) {
+	public void setAttached(Entity attached) {
 		this.attached = attached;
 	}
 
 	private void tryAttach() {
-		for (EntityLivingBase e : this.world.getEntitiesWithinAABB(EntityLivingBase.class,
-				this.getEntityBoundingBox().grow(0, 2.5, 0))) {
+		for (Entity e : this.world.loadedEntityList) {
 			if (e.getUniqueID().equals(attachedUUID)) {
 				attached = e;
 				break;
 			}
 		}
+		// TODO: Check for failed attachment.
+		if (attached == null)
+			lifeTicks = 0;
+		// for (EntityLivingBase e :
+		// this.world.getEntitiesWithinAABB(EntityLivingBase.class,
+		// this.getEntityBoundingBox().grow(0, 2.5, 0))) {
+		// if (e.getUniqueID().equals(attachedUUID)) {
+		// attached = e;
+		// break;
+		// }
+		// }
 	}
 
 	@Override
