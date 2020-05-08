@@ -3,11 +3,9 @@ package cappycot.benghuai.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
 
 /**
- * Model for secondary decoration swords.
+ * Model for secondary decoration swords. Texture offsets are different.
  * 
  * Raikiri - Cappycot Created using Tabula 7.0.1
  */
