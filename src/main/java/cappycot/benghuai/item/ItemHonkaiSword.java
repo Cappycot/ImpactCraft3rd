@@ -154,6 +154,7 @@ public abstract class ItemHonkaiSword extends ItemSword implements HonkaiWeapon 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		int upgrades = ItemHelper.getUpgrades(stack);
+		// TODO: Update translation system.
 		return I18n.translateToLocal(this.getUnlocalizedName(stack) + ".name").trim()
 				+ (upgrades > 0 ? (" +" + upgrades) : "");
 	}
